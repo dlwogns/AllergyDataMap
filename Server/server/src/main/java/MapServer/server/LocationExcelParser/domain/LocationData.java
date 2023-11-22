@@ -1,4 +1,4 @@
-package MapServer.LocationExcelParser.domain;
+package MapServer.server.LocationExcelParser.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
