@@ -12,14 +12,8 @@ import lombok.Setter;
 @Setter
 @Table(name = "finedust")
 public class FineDustData {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Column(name = "sidoName", nullable = false, length = 10)
-    private String sidoName;
-
-    @Column(name = "cityName", nullable = false, length = 10)
     private String cityName;
 
     @Column(name = "pm10value", nullable = false)
