@@ -2,6 +2,7 @@ package MapServer.server.FineDust.service;
 
 import MapServer.server.FineDust.domain.FineDustData;
 import MapServer.server.FineDust.repository.FineDustRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +16,8 @@ public class FineDustService {
     }
     public void saveFineDustData(FineDustData fineDustData){
         fineDustRepository.save(fineDustData);
+    }
+    public List<FineDustData> getAllFineDustData(){
+        return fineDustRepository.findAll();
     }
 }

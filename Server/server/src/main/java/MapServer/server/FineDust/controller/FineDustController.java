@@ -55,6 +55,10 @@ public class FineDustController {
         }
         return ResponseEntity.ok("Data saved");
     }
+    @GetMapping("/getalldata")
+    public List<FineDustData> getAllFineDustData(){
+        return fineDustService.getAllFineDustData();
+    }
     private UriComponentsBuilder setURL(String sidoName, int numberofsido){
         String searchCondition = "DAILY";
         int pageNo = 1;
