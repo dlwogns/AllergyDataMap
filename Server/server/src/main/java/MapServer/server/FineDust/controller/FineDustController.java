@@ -1,6 +1,7 @@
 package MapServer.server.FineDust.controller;
 
 import MapServer.server.FineDust.domain.FineDustData;
+import MapServer.server.FineDust.domain.sidoNameinKorea;
 import MapServer.server.FineDust.service.FineDustService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -42,32 +43,27 @@ public class FineDustController {
     @GetMapping("/save")
     public ResponseEntity<String> getDataFromApi() throws URISyntaxException {
 
-        // todo
-        // ENUM으로 변경
-        String[] sidoNameList = {"서울", "부산", "대구", "인천", "광주", "대전", "울산", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주", "세종"};
-
-        for(String sidoName : sidoNameList){
-            UriComponentsBuilder builder = setURL(sidoName);
+        for(sidoNameinKorea sidoName : sidoNameinKorea.values() ){
+            UriComponentsBuilder builder = setURL(sidoName.getSidoName(), sidoName.getNumberofsido());
             URI uri = new URI(builder.toUriString());
             String jsonString = restTemplate.getForObject(uri, String.class);
             ObjectMapper objectMapper = new ObjectMapper();
-            List<FineDustData> fineDustDataBysidoName = parseData(jsonString, objectMapper, sidoName);
+            List<FineDustData> fineDustDataBysidoName = parseData(jsonString, objectMapper, sidoName.getSidoName());
             for(FineDustData fineDustData : fineDustDataBysidoName){
                 fineDustService.saveFineDustData(fineDustData);
             }
         }
         return ResponseEntity.ok("Data saved");
     }
-    private UriComponentsBuilder setURL(String sidoName){
+    private UriComponentsBuilder setURL(String sidoName, int numberofsido){
         String searchCondition = "DAILY";
         int pageNo = 1;
-        int numOfRows = 25;
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(apiUrl)
                 .queryParam("sidoName", sidoName)
                 .queryParam("searchCondition", searchCondition)
                 .queryParam("pageNo", pageNo)
-                .queryParam("numOfRows", numOfRows)
+                .queryParam("numOfRows", numberofsido)
                 .queryParam("returnType", returnType)
                 .queryParam("serviceKey", serviceKey);
         return builder;
