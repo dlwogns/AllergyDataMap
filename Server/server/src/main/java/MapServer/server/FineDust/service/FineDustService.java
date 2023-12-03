@@ -13,10 +13,7 @@ public class FineDustService {
     public FineDustService(FineDustRepository fineDustRepository){
         this.fineDustRepository = fineDustRepository;
     }
-    public void saveFineDustData(String cityName, int pm10value){
-        FineDustData fineDustData = new FineDustData();
-        fineDustData.setCityName(cityName);
-        fineDustData.setPm10value(pm10value);
+    public void saveFineDustData(FineDustData fineDustData){
         fineDustRepository.save(fineDustData);
     }
 }
