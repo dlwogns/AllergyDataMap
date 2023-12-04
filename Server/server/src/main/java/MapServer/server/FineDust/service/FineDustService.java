@@ -11,16 +11,19 @@ public class FineDustService {
     private final FineDustRepository fineDustRepository;
 
     @Autowired
-    public FineDustService(FineDustRepository fineDustRepository){
+    public FineDustService(FineDustRepository fineDustRepository) {
         this.fineDustRepository = fineDustRepository;
     }
-    public void saveFineDustData(FineDustData fineDustData){
+
+    public void saveFineDustData(FineDustData fineDustData) {
         fineDustRepository.save(fineDustData);
     }
-    public List<FineDustData> getAllFineDustData(){
+
+    public List<FineDustData> getAllFineDustData() {
         return fineDustRepository.findAll();
     }
-    public List<FineDustData> searchByCityName(String cityName){
+
+    public List<FineDustData> searchByCityName(String cityName) {
         return fineDustRepository.findByCityNameContainingIgnoreCase(cityName);
     }
 }

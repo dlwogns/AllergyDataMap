@@ -44,27 +44,30 @@ public class FineDustController {
     @GetMapping("/save")
     public ResponseEntity<String> getDataFromApi() throws URISyntaxException {
 
-        for(sidoNameinKorea sidoName : sidoNameinKorea.values() ){
+        for (sidoNameinKorea sidoName : sidoNameinKorea.values()) {
             UriComponentsBuilder builder = setURL(sidoName.getSidoName(), sidoName.getNumberofsido());
             URI uri = new URI(builder.toUriString());
             String jsonString = restTemplate.getForObject(uri, String.class);
             ObjectMapper objectMapper = new ObjectMapper();
             List<FineDustData> fineDustDataBysidoName = parseData(jsonString, objectMapper, sidoName.getSidoName());
-            for(FineDustData fineDustData : fineDustDataBysidoName){
+            for (FineDustData fineDustData : fineDustDataBysidoName) {
                 fineDustService.saveFineDustData(fineDustData);
             }
         }
         return ResponseEntity.ok("Data saved");
     }
+
     @GetMapping("/getalldata")
-    public List<FineDustData> getAllFineDustData(){
+    public List<FineDustData> getAllFineDustData() {
         return fineDustService.getAllFineDustData();
     }
+
     @GetMapping("/search/{cityName}")
-    public List<FineDustData> searchByCityName(@PathVariable String cityName){
+    public List<FineDustData> searchByCityName(@PathVariable String cityName) {
         return fineDustService.searchByCityName(cityName);
     }
-    private UriComponentsBuilder setURL(String sidoName, int numberofsido){
+
+    private UriComponentsBuilder setURL(String sidoName, int numberofsido) {
         String searchCondition = "DAILY";
         int pageNo = 1;
 
@@ -77,13 +80,14 @@ public class FineDustController {
                 .queryParam("serviceKey", serviceKey);
         return builder;
     }
-    private List<FineDustData> parseData(String jsonString, ObjectMapper objectMapper, String sidoName){
-        try{
+
+    private List<FineDustData> parseData(String jsonString, ObjectMapper objectMapper, String sidoName) {
+        try {
             JsonNode jsonNode = objectMapper.readTree(jsonString);
             JsonNode itemsNode = jsonNode.path("response").path("body").path("items");
             List<FineDustData> fineDustDataList = new ArrayList<>();
-            for(JsonNode item : itemsNode){
-                String cityName = sidoName +" "+ item.path("cityName").asText();
+            for (JsonNode item : itemsNode) {
+                String cityName = sidoName + " " + item.path("cityName").asText();
                 int pm10Value = item.path("pm10Value").asInt();
                 FineDustData fineDustData = new FineDustData();
                 fineDustData.setCityName(cityName);

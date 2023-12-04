@@ -30,7 +30,8 @@ public enum sidoNameinKorea {
     public String getSidoName() {
         return sidoName;
     }
-    public int getNumberofsido(){
+
+    public int getNumberofsido() {
         return numberofsido;
     }
 }
