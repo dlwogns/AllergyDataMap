@@ -20,4 +20,7 @@ public class FineDustService {
     public List<FineDustData> getAllFineDustData(){
         return fineDustRepository.findAll();
     }
+    public List<FineDustData> searchByCityName(String cityName){
+        return fineDustRepository.findByCityNameContainingIgnoreCase(cityName);
+    }
 }

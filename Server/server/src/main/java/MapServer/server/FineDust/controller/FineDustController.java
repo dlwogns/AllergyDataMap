@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -58,6 +59,10 @@ public class FineDustController {
     @GetMapping("/getalldata")
     public List<FineDustData> getAllFineDustData(){
         return fineDustService.getAllFineDustData();
+    }
+    @GetMapping("/search/{cityName}")
+    public List<FineDustData> searchByCityName(@PathVariable String cityName){
+        return fineDustService.searchByCityName(cityName);
     }
     private UriComponentsBuilder setURL(String sidoName, int numberofsido){
         String searchCondition = "DAILY";
