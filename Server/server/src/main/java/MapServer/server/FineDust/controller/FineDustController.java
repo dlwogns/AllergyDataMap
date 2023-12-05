@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,7 @@ public class FineDustController {
     private String serviceKey;
 
     @GetMapping("/save")
+    @Scheduled(cron = "0 0 4 * * *")
     public ResponseEntity<String> getDataFromApi() throws URISyntaxException {
 
         for (sidoNameinKorea sidoName : sidoNameinKorea.values()) {
