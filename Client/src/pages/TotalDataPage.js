@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Datacard from "../../components/totaldatapage/Datacard";
-import Mapbox from "../../components/totaldatapage/Mapbox";
-import "../../components/totaldatapage/totaldatapage.css";
+import Datacard from "../components/Datacard";
+import Mapbox from "../components/Mapbox";
+import "../styles/totaldatapage.css";
 
 export default function TotalDataPage() {
   const [selectedLocation, setSelectedLocation] = useState({});

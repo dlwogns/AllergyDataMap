@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Map, { Source, Layer } from "react-map-gl";
 import type { FillLayer, LineLayer, HeatmapLayer } from "react-map-gl";
-import { MAP_TOKEN } from "../../config";
+import { MAP_TOKEN } from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
-import * as turf from "@turf/turf";
 
-const geojson = require("../../geojson");
-const datajson = require("../../geojson1");
+const geojson = require("../geojson");
+const datajson = require("../geojson1");
 
 // const MAX_ZOOM_LEVEL = 9;
 
