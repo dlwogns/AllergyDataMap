@@ -20,19 +20,19 @@ const fillLayer: FillLayer = {
   type: "fill",
   paint: {
     "fill-color": "red",
-    // "fill-color": [
-    //   "case",
-    //   ["all", [">", ["get", "pm10value"], 0], ["<=", ["get", "pm10value"], 3]],
-    //   "blue",
-    //   ["all", [">", ["get", "pm10value"], 3], ["<=", ["get", "pm10value"], 6]],
-    //   "green",
-    //   ["all", [">", ["get", "pm10value"], 6], ["<=", ["get", "pm10value"], 9]],
-    //   "yellow",
-    //   [">", ["get", "pm10value"], 9],
-    //   "red",
-    //   "gray", // 기본 색상
-    // ],
-    // "fill-opacity": 0.5,
+    "fill-color": [
+      "case",
+      ["all", [">", ["get", "pm10value"], 0], ["<=", ["get", "pm10value"], 3]],
+      "blue",
+      ["all", [">", ["get", "pm10value"], 3], ["<=", ["get", "pm10value"], 6]],
+      "green",
+      ["all", [">", ["get", "pm10value"], 6], ["<=", ["get", "pm10value"], 9]],
+      "yellow",
+      [">", ["get", "pm10value"], 9],
+      "red",
+      "gray", // 기본 색상
+    ],
+    "fill-opacity": 0.5,
   },
 };
 
@@ -52,8 +52,13 @@ function Mapbox(props) {
   };
 
   useEffect(() => {
-    console.log(mapData);
-    console.log(geojson);
+    mapData.forEach((data1) => {
+      geojson.features.forEach((data2) => {
+        if (data1.cityName === data2.properties.SIG_KOR_NM) {
+          data2.properties.pm10value = data1.pm10value;
+        }
+      });
+    });
   }, []);
 
   return (
