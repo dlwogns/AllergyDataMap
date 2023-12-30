@@ -7,7 +7,6 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
-import "../styles/searchPage.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function SearchPage() {
@@ -15,27 +14,25 @@ export default function SearchPage() {
   const [selectedCity, setSelectedCity] = useState("");
 
   useEffect(() => {
-    for (let i = 0; i < koreaRegion.length; i++) {
-      console.log(koreaRegion[i][0]);
-      for (let j = 0; j < koreaRegion[i].length; j++) {
-        console.log(koreaRegion[i][1][j]);
-      }
-    }
-  }, []);
+    setSelectedCity("");
+  }, [selectedRegion]);
 
   return (
-    <div className="searchContainer">
+    <div
+      className="searchContainer"
+      style={{ margin: "100px", marginLeft: "240px" }}
+    >
       <Card
         border="light"
         bg="dark"
         text="white"
         className="searchCard"
-        style={{ width: "35rem", height: "20rem" }}
+        style={{ width: "50em", height: "25em" }}
       >
         <Card.Header>Search</Card.Header>
         <Card.Body>
-          <InputGroup className="mb-3">
-            <DropdownButton as={ButtonGroup} size="md" title="시/도">
+          <InputGroup className="mb-5" style={{ marginLeft: "15px" }}>
+            <DropdownButton as={ButtonGroup} size="lg" title="시/도">
               {koreaRegion.map((region, idx) => (
                 <Dropdown.Item
                   key={idx}
@@ -49,12 +46,12 @@ export default function SearchPage() {
             </DropdownButton>
             <InputGroup.Text
               id="basic-addon3"
-              style={{ marginRight: "50px", minWidth: "150px" }}
+              style={{ marginRight: "50px", minWidth: "230px" }}
             >
-              {selectedRegion}
+              <span style={{ fontSize: "20px" }}>{selectedRegion}</span>
             </InputGroup.Text>
             {/* margin */}
-            <DropdownButton as={ButtonGroup} size="md" title="시/군/구">
+            <DropdownButton as={ButtonGroup} size="lg" title="시/군/구">
               {selectedRegion &&
                 koreaRegion
                   .find((region) => region[0] === selectedRegion)[1]
@@ -69,17 +66,17 @@ export default function SearchPage() {
                     </Dropdown.Item>
                   ))}
             </DropdownButton>
-            <InputGroup.Text id="basic-addon3" style={{ minWidth: "150px" }}>
-              {selectedCity}
+            <InputGroup.Text id="basic-addon3" style={{ minWidth: "230px" }}>
+              <span style={{ fontSize: "20px" }}>{selectedCity}</span>
             </InputGroup.Text>
           </InputGroup>
           <Button
             variant="outline-success"
             style={{
-              margin: "70px",
-              marginLeft: "180px",
-              width: "10em",
-              height: "3em",
+              marginTop: "100px",
+              marginLeft: "230px",
+              width: "20em",
+              height: "4em",
             }}
           >
             Search

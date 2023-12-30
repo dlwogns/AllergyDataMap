@@ -23,6 +23,11 @@ const navigation = [
     href: "/aboutus",
     icon: "bi bi-people",
   },
+  {
+    title: "Make File",
+    href: "/makefilepage",
+    icon: "bi bi-people",
+  },
 ];
 
 const Sidebar = () => {

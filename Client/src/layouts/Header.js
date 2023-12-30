@@ -39,8 +39,8 @@ const Header = () => {
         </Button>
       </div>
 
-      <Collapse navbar>
-        <Nav className="justify-content-end" navbar>
+      <Collapse navbar className="justify-content-end">
+        <Nav navbar>
           <NavItem>
             <Link to="/login" className="nav-link">
               Login
