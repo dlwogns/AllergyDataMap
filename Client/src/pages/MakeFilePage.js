@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { saveAs } from "file-saver";
 
-const geojson1 = require("../output");
+const geojson1 = require("../output2");
 
 function MakeFilePage() {
   const [region, setRegion] = useState("");
@@ -11,6 +11,25 @@ function MakeFilePage() {
 
   const handleChange = (event) => {
     setFile(event.target.files[0]);
+  };
+
+  const convertRegion = (data) => {
+    if (data === "강원특별자치도") return "강원";
+    if (data === "경기도") return "경기";
+    if (data === "경상남도") return "경남";
+    if (data === "경상북도") return "경북";
+    if (data === "광주광역시") return "광주";
+    if (data === "대구광역시") return "대구";
+    if (data === "대전광역시") return "대전";
+    if (data === "부산광역시") return "부산";
+    if (data === "서울특별시") return "서울";
+    if (data === "울산광역시") return "울산";
+    if (data === "인천광역시") return "인천";
+    if (data === "전라남도") return "전남";
+    if (data === "전라북도") return "전북";
+    if (data === "제주특별자치도") return "제주";
+    if (data === "충청남도") return "충남";
+    if (data === "충청북도") return "충북";
   };
 
   const handleUpload = async () => {
@@ -53,15 +72,19 @@ function MakeFilePage() {
           let skn = feature.properties.SIG_KOR_NM.split(" ");
           if (address.province) {
             if (skn.length > 1) {
-              feature.properties.SIG_KOR_NM = `${address.province} ` + skn[1];
+              feature.properties.SIG_KOR_NM =
+                `${convertRegion(address.province)} ` + skn[1];
             } else {
-              feature.properties.SIG_KOR_NM = `${address.province} ` + skn[0];
+              feature.properties.SIG_KOR_NM =
+                `${convertRegion(address.province)} ` + skn[0];
             }
           } else {
             if (skn.length > 1) {
-              feature.properties.SIG_KOR_NM = `${address.city} ` + skn[1];
+              feature.properties.SIG_KOR_NM =
+                `${convertRegion(address.city)} ` + skn[1];
             } else {
-              feature.properties.SIG_KOR_NM = `${address.city} ` + skn[0];
+              feature.properties.SIG_KOR_NM =
+                `${convertRegion(address.city)} ` + skn[0];
             }
           }
           console.log(feature.properties.SIG_KOR_NM);

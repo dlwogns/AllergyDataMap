@@ -4,8 +4,9 @@ import type { FillLayer, LineLayer, HeatmapLayer } from "react-map-gl";
 import { MAP_TOKEN } from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { mapData } from "../data";
+import { fillColorData } from "../fillColorData";
 
-const geojson = require("../output");
+const geojson = require("../output2");
 
 const lineLayer: LineLayer = {
   id: "my_line_layer",
@@ -19,19 +20,7 @@ const fillLayer: FillLayer = {
   id: "my_fill_layer",
   type: "fill",
   paint: {
-    "fill-color": "red",
-    "fill-color": [
-      "case",
-      ["all", [">", ["get", "pm10value"], 0], ["<=", ["get", "pm10value"], 3]],
-      "blue",
-      ["all", [">", ["get", "pm10value"], 3], ["<=", ["get", "pm10value"], 6]],
-      "green",
-      ["all", [">", ["get", "pm10value"], 6], ["<=", ["get", "pm10value"], 9]],
-      "yellow",
-      [">", ["get", "pm10value"], 9],
-      "red",
-      "gray", // 기본 색상
-    ],
+    "fill-color": fillColorData,
     "fill-opacity": 0.5,
   },
 };
