@@ -3,8 +3,10 @@ import Map, { Source, Layer } from "react-map-gl";
 import type { FillLayer, LineLayer, HeatmapLayer } from "react-map-gl";
 import { MAP_TOKEN } from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { mapData } from "../data";
+// import { mapData } from "../data";
 import { fillColorData } from "../fillColorData";
+import { useSelector, useDispatch } from "react-redux";
+import { setSelectedRegionData } from "../redux/regionDataSlice";
 
 const geojson = require("../output2");
 
@@ -25,10 +27,12 @@ const fillLayer: FillLayer = {
   },
 };
 
-function Mapbox(props) {
+function Mapbox() {
   const initialViewport = { latitude: 36, longitude: 127.8, zoom: 6.2 };
   const [viewport, setViewport] = useState(initialViewport);
   const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+  const mapData = useSelector((state) => state.regionData.regions);
 
   const dragEndHandler = (e) => {
     console.log(e.viewState);
@@ -36,7 +40,7 @@ function Mapbox(props) {
 
   const clickLayerHandler = (e) => {
     const feature = e.features[0];
-    props.setSelectedLocationData(feature);
+    dispatch(setSelectedRegionData(feature));
     console.log(feature);
   };
 
