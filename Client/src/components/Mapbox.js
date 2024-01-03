@@ -6,7 +6,6 @@ import "mapbox-gl/dist/mapbox-gl.css";
 // import { mapData } from "../data";
 import { fillColorData } from "../fillColorData";
 import { useSelector, useDispatch } from "react-redux";
-import { setSelectedRegionData } from "../redux/regionDataSlice";
 
 const geojson = require("../output2");
 
@@ -27,7 +26,7 @@ const fillLayer: FillLayer = {
   },
 };
 
-function Mapbox() {
+function Mapbox(props) {
   const initialViewport = { latitude: 36, longitude: 127.8, zoom: 6.2 };
   const [viewport, setViewport] = useState(initialViewport);
   const [data, setData] = useState([]);
@@ -39,9 +38,9 @@ function Mapbox() {
   };
 
   const clickLayerHandler = (e) => {
-    const feature = e.features[0];
-    dispatch(setSelectedRegionData(feature));
+    const feature = e.features[0] ? e.features[0].properties : "undefined";
     console.log(feature);
+    props.setSelectedRegionData(feature);
   };
 
   useEffect(() => {

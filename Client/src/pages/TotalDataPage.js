@@ -8,9 +8,9 @@ import { getRegionData } from "../redux/regionDataSlice";
 import axios from "axios";
 
 export default function TotalDataPage() {
-  const [selectedLocationData, setSelectedLocationData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+  const [selectedRegionData, setSelectedRegionData] = useState(null);
 
   useEffect(() => {
     axios("http://localhost:8000/getRegionData")
@@ -21,12 +21,15 @@ export default function TotalDataPage() {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+    console.log(selectedRegionData);
+  }, [selectedRegionData]);
 
   return (
     <div className="totaldatapage-container">
-      {!isLoading && <Datacard />}
-      {!isLoading && <Mapbox />}
+      {selectedRegionData && (
+        <Datacard selectedRegionData={selectedRegionData} />
+      )}
+      {!isLoading && <Mapbox setSelectedRegionData={setSelectedRegionData} />}
       {/* <Location /> */}
     </div>
   );

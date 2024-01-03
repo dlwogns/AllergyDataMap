@@ -3,7 +3,6 @@ import axios from "axios";
 
 const initialState: InitialState = {
   regions: [],
-  selectedRegionData: {},
 };
 
 const regionDataSlice = createSlice({
@@ -13,12 +12,9 @@ const regionDataSlice = createSlice({
     getRegionData: (state, action) => {
       state.regions = action.payload;
     },
-    setSelectedRegionData: (state, action) => {
-      state.selectedRegionData = action.payload;
-    },
   },
 });
 
-export const { getRegionData, setSelectedRegionData } = regionDataSlice.actions;
+export const { getRegionData } = regionDataSlice.actions;
 
 export default regionDataSlice.reducer;
