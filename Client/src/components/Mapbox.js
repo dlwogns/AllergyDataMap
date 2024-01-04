@@ -7,7 +7,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { fillColorData } from "../fillColorData";
 import { useSelector, useDispatch } from "react-redux";
 
-const geojson = require("../output2");
+const geojson = require("../geojson.json");
 
 const lineLayer: LineLayer = {
   id: "my_line_layer",
@@ -33,13 +33,8 @@ function Mapbox(props) {
   const dispatch = useDispatch();
   const mapData = useSelector((state) => state.regionData.regions);
 
-  const dragEndHandler = (e) => {
-    console.log(e.viewState);
-  };
-
   const clickLayerHandler = (e) => {
     const feature = e.features[0] ? e.features[0].properties : "undefined";
-    console.log(feature);
     props.setSelectedRegionData(feature);
   };
 
@@ -69,7 +64,6 @@ function Mapbox(props) {
       }}
       attributionControl={false}
       dragPan={false}
-      onDragEnd={dragEndHandler}
       scrollZoom={false}
       interactiveLayerIds={["my_fill_layer"]}
       onClick={clickLayerHandler}

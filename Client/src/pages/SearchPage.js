@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import koreaRegion from "../koreaRegion";
 import Card from "react-bootstrap/Card";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -10,12 +11,17 @@ import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function SearchPage() {
-  const [selectedRegion, setSelectedRegion] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedDOSI, setSelectedDOSI] = useState("");
+  const [selectedSIGUNGU, setSelectedSIGUNGU] = useState("");
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    setSelectedCity("");
-  }, [selectedRegion]);
+  const onClickHandler = (e) => {
+    const endpoint =
+      `/detailRegionPage?` +
+      `dosi=${selectedDOSI}&` +
+      `sigungu=${selectedSIGUNGU}`;
+    navigate(endpoint);
+  };
 
   return (
     <div
@@ -37,7 +43,7 @@ export default function SearchPage() {
                 <Dropdown.Item
                   key={idx}
                   onClick={() => {
-                    setSelectedRegion(region[0]);
+                    setSelectedDOSI(region[0]);
                   }}
                 >
                   {region[0]}
@@ -48,18 +54,18 @@ export default function SearchPage() {
               id="basic-addon3"
               style={{ marginRight: "50px", minWidth: "230px" }}
             >
-              <span style={{ fontSize: "20px" }}>{selectedRegion}</span>
+              <span style={{ fontSize: "20px" }}>{selectedDOSI}</span>
             </InputGroup.Text>
             {/* margin */}
             <DropdownButton as={ButtonGroup} size="lg" title="시/군/구">
-              {selectedRegion &&
+              {selectedDOSI &&
                 koreaRegion
-                  .find((region) => region[0] === selectedRegion)[1]
+                  .find((region) => region[0] === selectedDOSI)[1]
                   .map((city, idx) => (
                     <Dropdown.Item
                       key={idx}
                       onClick={() => {
-                        setSelectedCity(city);
+                        setSelectedSIGUNGU(city);
                       }}
                     >
                       {city}
@@ -67,7 +73,7 @@ export default function SearchPage() {
                   ))}
             </DropdownButton>
             <InputGroup.Text id="basic-addon3" style={{ minWidth: "230px" }}>
-              <span style={{ fontSize: "20px" }}>{selectedCity}</span>
+              <span style={{ fontSize: "20px" }}>{selectedSIGUNGU}</span>
             </InputGroup.Text>
           </InputGroup>
           <Button
@@ -78,6 +84,7 @@ export default function SearchPage() {
               width: "20em",
               height: "4em",
             }}
+            onClick={onClickHandler}
           >
             Search
           </Button>{" "}

@@ -13,6 +13,7 @@ const LoginPage = lazy(() => import("../pages/LoginPage"));
 const SignupPage = lazy(() => import("../pages/SignupPage"));
 const SearchPage = lazy(() => import("../pages/SearchPage"));
 const MakeFilePage = lazy(() => import("../pages/MakeFilePage"));
+const DetailRegionPage = lazy(() => import("../pages/DetailRegionPage"));
 
 /*****Routes******/
 
@@ -22,11 +23,12 @@ const ThemeRoutes = [
     element: <FullLayout />,
     children: [
       { path: "/", element: <Navigate to="/totaldatapage" /> },
-      { path: "/aboutus", exact: true, element: <AboutUsPage /> },
-      { path: "/usermanagepage", exact: true, element: <UserManagePage /> },
-      { path: "/totaldatapage", exact: true, element: <TotalDataPage /> },
-      { path: "/searchpage", exact: true, element: <SearchPage /> },
-      { path: "/makefilepage", exact: true, element: <MakeFilePage /> },
+      { path: "/aboutUs", exact: true, element: <AboutUsPage /> },
+      { path: "/userManagePage", exact: true, element: <UserManagePage /> },
+      { path: "/totalDataPage", exact: true, element: <TotalDataPage /> },
+      { path: "/searchPage", exact: true, element: <SearchPage /> },
+      { path: "/makeFilePage", exact: true, element: <MakeFilePage /> },
+      { path: "/detailRegionPage", exact: true, element: <DetailRegionPage /> },
     ],
   },
   {

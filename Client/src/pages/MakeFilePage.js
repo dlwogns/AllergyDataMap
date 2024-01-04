@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { saveAs } from "file-saver";
 
-const geojson1 = require("../output2");
+const geojson1 = require("../geojson.json");
 
 function MakeFilePage() {
   const [region, setRegion] = useState("");
@@ -122,8 +122,6 @@ function MakeFilePage() {
         feature.geometry.type === "Polygon"
           ? feature.geometry.coordinates[0][0][0]
           : feature.geometry.coordinates[0][0][0][0];
-
-      console.log(i++, feature.properties.SIG_KOR_NM.split(" "));
     }
   }, []); // 빈 의존성 배열을 사용하여 컴포넌트가 마운트될 때만 API를 호출하게 함
 
