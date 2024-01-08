@@ -1,13 +1,22 @@
 .pageWrapper {
   min-height: 100vh;
 }
+
+.header {
+  min-height:6vh;
+}
+
 .contentArea {
   flex-grow: 1;
+  height:100vh;
 }
+
 .wrapper {
-  max-width: 1300px;
+  max-width: 1500px;
   margin: 0 auto;
+  min-height: 500px;
 }
+
 .card {
   box-shadow: $card-box-shadow;
   margin-bottom: 30px;
@@ -29,6 +38,8 @@
 .button-group .btn {
   margin: 3px;
 }
+
+
 
 .table>:not(:first-child) {
   border-top: 2px solid;

@@ -1,0 +1,46 @@
+.search-container {
+    display:flex;
+    background: linear-gradient(rgba(255, 255, 255, 0.3),
+                rgba(255, 255, 255, 0.3)),
+            url("../assets/images/searchPage/earth1.jpg");
+
+    height: 93vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    align-items: flex-end;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 70%;
+    height: 100px;
+    margin-bottom: 45px;
+    background: linear-gradient(rgba(255, 255, 255, 0.5),
+                    rgba(255, 255, 255, 0.5));
+    border: 1px solid #d2b48c;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    color: #2f4f4f;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.search-form button {
+    background-color: #AAD7D9;
+    color:#5F8670;
+    border:1px solid white;
+    height: 50px;
+}
+
+.search-form .region-text-container {
+    display: inline-block;
+    border: 1px solid black;
+    width:200px;
+    height: 50px;
+}
+
+.search-form .region-text {
+    font-size: 30px;
+}
