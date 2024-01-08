@@ -3,7 +3,6 @@ import Map, { Source, Layer } from "react-map-gl";
 import type { FillLayer, LineLayer, HeatmapLayer } from "react-map-gl";
 import { MAP_TOKEN } from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
-// import { mapData } from "../data";
 import { fillColorData } from "../fillColorData";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -23,6 +22,15 @@ const fillLayer: FillLayer = {
   paint: {
     "fill-color": fillColorData,
     "fill-opacity": 0.5,
+  },
+};
+
+// 전체 지도를 커버하는 레이어
+const backgroundLayer = {
+  id: "background",
+  type: "background",
+  paint: {
+    "background-color": "rgba(230,230,230,1)", // 흐림 효과를 위한 배경색 설정
   },
 };
 
@@ -58,7 +66,7 @@ function Mapbox(props) {
         width: "40vw",
         height: "92.9vh",
       }}
-      mapStyle="mapbox://styles/mapbox/light-v11"
+      mapStyle={"mapbox://styles/mapbox/light-v11"}
       onViewportChange={(viewport) => {
         setViewport(viewport);
       }}
@@ -69,6 +77,7 @@ function Mapbox(props) {
       onClick={clickLayerHandler}
     >
       <Source type="geojson" data={geojson}>
+        <Layer {...backgroundLayer}></Layer>
         <Layer {...fillLayer}></Layer>
       </Source>
       <Source type="geojson" data={geojson}>

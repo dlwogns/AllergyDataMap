@@ -31,7 +31,12 @@ export default function SearchPage() {
     <div className="search-container">
       <Container className="search-form" fluid>
         <InputGroup style={{ marginLeft: "30px" }}>
-          <DropdownButton as={ButtonGroup} size="lg" title="시/도">
+          <DropdownButton
+            variant="outline-success"
+            as={ButtonGroup}
+            size="lg"
+            title="시/도"
+          >
             {koreaRegion.map((region, idx) => (
               <Dropdown.Item
                 key={idx}
@@ -48,7 +53,12 @@ export default function SearchPage() {
           </InputGroup.Text>
         </InputGroup>
         <InputGroup>
-          <DropdownButton as={ButtonGroup} size="lg" title="시/군/구">
+          <DropdownButton
+            variant="outline-success"
+            as={ButtonGroup}
+            size="lg"
+            title="시/군/구"
+          >
             {selectedDOSI &&
               koreaRegion
                 .find((region) => region[0] === selectedDOSI)[1]
@@ -70,7 +80,7 @@ export default function SearchPage() {
         <Button
           variant="outline-success"
           onClick={onClickHandler}
-          style={{ width: "300px" }}
+          style={{ width: "300px", marginRight: "30px" }}
         >
           Search
         </Button>{" "}
