@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Map, { Source, Layer } from "react-map-gl";
 import type { FillLayer, LineLayer, HeatmapLayer } from "react-map-gl";
 import { MAP_TOKEN } from "../config";
@@ -25,6 +25,17 @@ const fillLayer: FillLayer = {
   },
 };
 
+// 호버되었을 때의 fillLayer 코드
+const hoverFillLayer: FillLayer = {
+  id: "hover_fill_layer",
+  type: "fill",
+  paint: {
+    "fill-color": "rgba(255, 0, 0, 1)", // 빨간색으로 변경
+    "fill-opacity": 0.75, // 투명도 조절
+  },
+  filter: ["==", "SIG_KOR_NM", ""], // 초기 필터 설정
+};
+
 // 전체 지도를 커버하는 레이어
 const backgroundLayer = {
   id: "background",
@@ -35,15 +46,36 @@ const backgroundLayer = {
 };
 
 function Mapbox(props) {
-  const initialViewport = { latitude: 36, longitude: 127.8, zoom: 6.2 };
+  const initialViewport = { latitude: 36, longitude: 127.8, zoom: 6.4 };
   const [viewport, setViewport] = useState(initialViewport);
   const [data, setData] = useState([]);
+  const [hoveredRegion, setHoveredRegion] = useState("");
   const dispatch = useDispatch();
   const mapData = useSelector((state) => state.regionData.regions);
+
+  const mapRef = useRef();
+  const [map, setMap] = useState(null);
 
   const clickLayerHandler = (e) => {
     const feature = e.features[0] ? e.features[0].properties : "undefined";
     props.setSelectedRegionData(feature);
+  };
+
+  const onHoverHandler = (e) => {
+    if (e.features[0]) {
+      const regionName = e.features[0].properties.SIG_KOR_NM;
+      if (regionName !== hoveredRegion) {
+        console.log(regionName);
+        setHoveredRegion(regionName);
+
+        if (map) {
+          const hoverLayer = map.getLayer("hover_fill_layer");
+          if (hoverLayer) {
+            map.setFilter("hover_fill_layer", ["==", "SIG_KOR_NM", regionName]);
+          }
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -58,6 +90,8 @@ function Mapbox(props) {
 
   return (
     <Map
+      ref={mapRef}
+      onLoad={() => setMap(mapRef.current.getMap())}
       mapboxAccessToken={MAP_TOKEN}
       initialViewState={viewport}
       style={{
@@ -75,10 +109,12 @@ function Mapbox(props) {
       scrollZoom={false}
       interactiveLayerIds={["my_fill_layer"]}
       onClick={clickLayerHandler}
+      onMouseMove={onHoverHandler}
     >
       <Source type="geojson" data={geojson}>
         <Layer {...backgroundLayer}></Layer>
         <Layer {...fillLayer}></Layer>
+        <Layer {...hoverFillLayer}></Layer>
       </Source>
       <Source type="geojson" data={geojson}>
         <Layer {...lineLayer}></Layer>
