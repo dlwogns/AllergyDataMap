@@ -9,12 +9,12 @@ const regionDataSlice = createSlice({
   name: "regionData",
   initialState,
   reducers: {
-    getRegionData: (state, action) => {
+    setRegionData: (state, action) => {
       state.regions = action.payload;
     },
   },
 });
 
-export const { getRegionData } = regionDataSlice.actions;
+export const { setRegionData } = regionDataSlice.actions;
 
 export default regionDataSlice.reducer;

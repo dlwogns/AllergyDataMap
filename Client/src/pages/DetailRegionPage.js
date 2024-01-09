@@ -14,8 +14,7 @@ export default function DetailRegionPage() {
   const queryData = QueryString.parse(location.search, {
     ignoreQueryPrefix: true,
   });
-  // const geojson = require("../geojson.json");
-  const regions = useSelector((state) => state.regionData.regions);
+  const geojson = require("../geojson.json");
   const initialViewport = { latitude: 36, longitude: 127.8, zoom: 6.2 };
   const [viewport, setViewport] = useState(initialViewport);
   const [searchedRegionFeature, setSearchedRegionFeature] = useState({
@@ -24,14 +23,24 @@ export default function DetailRegionPage() {
       dataTime: "",
     },
   });
+  const regions = useSelector((state) => state.regionData.regions);
 
   useEffect(() => {
-    setSearchedRegionFeature(
-      regions.find(
-        (region) =>
-          region.properties.SIG_KOR_NM.split(" ")[1] === `${queryData.sigungu}`
-      )
+    console.log(regions);
+    const feature_coordinates = geojson.features.find(
+      (region) =>
+        region.properties.SIG_KOR_NM.split(" ")[1] === `${queryData.sigungu}`
     );
+    const feature_data = regions.find(
+      (region) => region.cityName.split(" ")[1] === `${queryData.sigungu}`
+    );
+
+    const feature = feature_coordinates;
+    console.log(feature_data);
+    feature.properties.pm10value = feature_data.pm10value;
+    feature.properties.dataTime = feature_data.dataTime;
+
+    setSearchedRegionFeature(feature);
     console.log(searchedRegionFeature);
   }, [searchedRegionFeature]);
 
