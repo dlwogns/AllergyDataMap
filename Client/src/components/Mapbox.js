@@ -5,6 +5,7 @@ import { MAP_TOKEN } from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { fillColorData } from "../fillColorData";
 import { useSelector, useDispatch } from "react-redux";
+import Card from "react-bootstrap/Card";
 
 const geojson = require("../geojson.json");
 
@@ -70,7 +71,6 @@ function Mapbox(props) {
 
   const viewportChangeHandler = (e) => {
     setViewport(e);
-    console.log(viewport);
   };
 
   const clickLayerHandler = (e) => {
@@ -96,23 +96,24 @@ function Mapbox(props) {
   };
 
   const onZoomEndHandler = (e) => {
-    console.log(e);
     if (e.viewState.zoom <= 6.41) {
-      console.log("#");
       setIsZoomMin(true);
     }
   };
 
+  const resetMapViewport = (e) => {
+    map.flyTo({ center: [lon, lat], zoom: 6.4 });
+  };
+
   useEffect(() => {
     if (isZoomMin && map) {
-      map.flyTo({ center: [lon, lat], zoom: 6.4 });
+      resetMapViewport();
       setIsZoomMin(false);
     }
   }, [isZoomMin]);
 
   useEffect(() => {
     if (mapRef.current) {
-      console.log(mapRef);
       setMap(mapRef.current.getMap());
     }
   }, []);
@@ -137,6 +138,23 @@ function Mapbox(props) {
       onMouseMove={onHoverHandler}
       onZoomEnd={onZoomEndHandler}
     >
+      {hoveredRegion && (
+        <Card
+          className="mapbox-hovered-card"
+          style={{
+            width: "6rem",
+            position: "absolute",
+            top: "10px",
+            left: "10px",
+          }}
+        >
+          <Card.Img variant="top" src="holder.js/100px180" />
+          <Card.Body>
+            <Card.Title>{hoveredRegion}</Card.Title>
+            <Card.Text></Card.Text>
+          </Card.Body>
+        </Card>
+      )}
       <Source type="geojson" data={geojson}>
         <Layer {...backgroundLayer}></Layer>
         <Layer {...fillLayer}></Layer>
@@ -145,6 +163,19 @@ function Mapbox(props) {
       <Source type="geojson" data={geojson}>
         <Layer {...lineLayer}></Layer>
       </Source>
+
+      <div className="riskInfoCard">
+        <h4>위험지수</h4>
+        <p>
+          <span style={{ color: "green" }}>●</span> 낮음
+        </p>
+        <p>
+          <span style={{ color: "yellow" }}>●</span> 중간
+        </p>
+        <p>
+          <span style={{ color: "red" }}>●</span> 높음
+        </p>
+      </div>
     </Map>
   );
 }
