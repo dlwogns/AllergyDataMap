@@ -46,6 +46,8 @@ dependencies {
 	//jackson
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5' // 현재 시점에서의 최신 버전 사용
 
+	//validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('bootBuildImage') {
