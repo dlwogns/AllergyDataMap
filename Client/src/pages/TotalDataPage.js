@@ -11,26 +11,40 @@ export default function TotalDataPage() {
   const dispatch = useDispatch();
   const [selectedRegionData, setSelectedRegionData] = useState(null);
   const geojson = require("../geojson.json");
+  const regions = useSelector((state) => state.regionData.regions);
 
   useEffect(() => {
-    axios("http://localhost:8000/getRegionData")
-      .then((res) => {
-        dispatch(setRegionData(res.data));
-      })
-      .then(() => {
-        setIsLoading(false);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, [selectedRegionData]);
+    if (regions.length <= 0) {
+      console.log(regions);
+      axios("http://localhost:8000/getRegionData")
+        .then((res) => {
+          res.data.forEach((data1) => {
+            geojson.features.forEach((data2) => {
+              if (data1.cityName === data2.properties.SIG_KOR_NM) {
+                data2.properties.pm10value = data1.pm10value;
+                data2.properties.dataTime = data1.dataTime;
+              }
+            });
+          });
+          return dispatch(setRegionData(geojson));
+        })
+        .then(() => {
+          setIsLoading(false);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, []);
 
   return (
     <div className="totaldatapage-container">
       {selectedRegionData && (
         <Datacard selectedRegionData={selectedRegionData} />
       )}
-      {!isLoading && <Mapbox setSelectedRegionData={setSelectedRegionData} />}
+      {(!isLoading || (regions.features && regions.features.length > 0)) && (
+        <Mapbox setSelectedRegionData={setSelectedRegionData} />
+      )}
     </div>
   );
 }

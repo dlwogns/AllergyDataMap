@@ -14,50 +14,47 @@ export default function DetailRegionPage() {
   const queryData = QueryString.parse(location.search, {
     ignoreQueryPrefix: true,
   });
-  const geojson = require("../geojson.json");
   const initialViewport = { latitude: 36, longitude: 127.8, zoom: 6.2 };
   const [viewport, setViewport] = useState(initialViewport);
-  const [searchedRegionFeature, setSearchedRegionFeature] = useState({
-    properties: {
-      pm10value: 0,
-      dataTime: "",
-    },
-  });
+  const [searchedRegionFeature, setSearchedRegionFeature] = useState();
   const regions = useSelector((state) => state.regionData.regions);
+  const geoJson = require("../geojson.json");
 
   useEffect(() => {
     console.log(regions);
-    const feature_coordinates = geojson.features.find(
-      (region) =>
-        region.properties.SIG_KOR_NM.split(" ")[1] === `${queryData.sigungu}`
-    );
-    const feature_data = regions.find(
-      (region) => region.cityName.split(" ")[1] === `${queryData.sigungu}`
+    const newFeature = regions.features.find(
+      (region_feature) =>
+        region_feature.properties.SIG_KOR_NM.split(" ")[1] ===
+        `${queryData.sigungu}`
     );
 
-    const feature = feature_coordinates;
-    console.log(feature_data);
-    feature.properties.pm10value = feature_data.pm10value;
-    feature.properties.dataTime = feature_data.dataTime;
-
-    setSearchedRegionFeature(feature);
-    console.log(searchedRegionFeature);
-  }, [searchedRegionFeature]);
-
-  const fillLayer: FillLayer = {
-    id: "my_fill_layer",
-    type: "fill",
-    paint: {
-      "fill-color": fillColorData,
-      "fill-opacity": 0.5,
-    },
-  };
+    setSearchedRegionFeature(newFeature);
+  }, []);
 
   const lineLayer: LineLayer = {
     id: "my_line_layer",
     type: "line",
     paint: {
       "line-color": "black",
+      "line-opacity": 0.2,
+    },
+  };
+
+  const fillLayer: FillLayer = {
+    id: "my_fill_layer",
+    type: "fill",
+    paint: {
+      "fill-color": fillColorData,
+      "fill-opacity": 1,
+    },
+  };
+
+  // 전체 지도를 커버하는 레이어
+  const backgroundLayer = {
+    id: "background",
+    type: "background",
+    paint: {
+      "background-color": "rgba(230,230,230,1)", // 흐림 효과를 위한 배경색 설정
     },
   };
 
@@ -98,9 +95,11 @@ export default function DetailRegionPage() {
           interactiveLayerIds={["my_fill_layer"]}
         >
           <Source type="geojson" data={searchedRegionFeature}>
+            <Layer {...backgroundLayer}></Layer>
             <Layer {...fillLayer}></Layer>
           </Source>
-          <Source type="geojson" data={searchedRegionFeature}>
+          <Source type="geojson" data={geoJson}>
+            {/* <Layer {...backgroundLayer}></Layer> */}
             <Layer {...lineLayer}></Layer>
           </Source>
         </Map>

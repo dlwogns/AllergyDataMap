@@ -46,15 +46,32 @@ const backgroundLayer = {
 };
 
 function Mapbox(props) {
-  const initialViewport = { latitude: 36, longitude: 127.8, zoom: 6.4 };
+  const lat = 36;
+  const lon = 127.8;
+  const initialViewport = {
+    latitude: lat,
+    longitude: lon,
+    zoom: 6.4,
+    minZoom: 6.4,
+    maxZoom: 10,
+  };
   const [viewport, setViewport] = useState(initialViewport);
-  const [data, setData] = useState([]);
   const [hoveredRegion, setHoveredRegion] = useState("");
-  const dispatch = useDispatch();
-  const mapData = useSelector((state) => state.regionData.regions);
+  const MapBoxStyle = {
+    position: "absolute",
+    left: "60%",
+    width: "40vw",
+    height: "92.9vh",
+  };
+  const [isZoomMin, setIsZoomMin] = useState(false);
 
   const mapRef = useRef();
   const [map, setMap] = useState(null);
+
+  const viewportChangeHandler = (e) => {
+    setViewport(e);
+    console.log(viewport);
+  };
 
   const clickLayerHandler = (e) => {
     const feature = e.features[0] ? e.features[0].properties : "undefined";
@@ -65,7 +82,7 @@ function Mapbox(props) {
     if (e.features[0]) {
       const regionName = e.features[0].properties.SIG_KOR_NM;
       if (regionName !== hoveredRegion) {
-        console.log(regionName);
+        // console.log(regionName);
         setHoveredRegion(regionName);
 
         if (map) {
@@ -78,14 +95,26 @@ function Mapbox(props) {
     }
   };
 
+  const onZoomEndHandler = (e) => {
+    console.log(e);
+    if (e.viewState.zoom <= 6.41) {
+      console.log("#");
+      setIsZoomMin(true);
+    }
+  };
+
   useEffect(() => {
-    mapData.forEach((data1) => {
-      geojson.features.forEach((data2) => {
-        if (data1.cityName === data2.properties.SIG_KOR_NM) {
-          data2.properties.pm10value = data1.pm10value;
-        }
-      });
-    });
+    if (isZoomMin && map) {
+      map.flyTo({ center: [lon, lat], zoom: 6.4 });
+      setIsZoomMin(false);
+    }
+  }, [isZoomMin]);
+
+  useEffect(() => {
+    if (mapRef.current) {
+      console.log(mapRef);
+      setMap(mapRef.current.getMap());
+    }
   }, []);
 
   return (
@@ -94,22 +123,19 @@ function Mapbox(props) {
       onLoad={() => setMap(mapRef.current.getMap())}
       mapboxAccessToken={MAP_TOKEN}
       initialViewState={viewport}
-      style={{
-        position: "absolute",
-        left: "60%",
-        width: "40vw",
-        height: "92.9vh",
-      }}
+      style={MapBoxStyle}
       mapStyle={"mapbox://styles/mapbox/light-v11"}
-      onViewportChange={(viewport) => {
-        setViewport(viewport);
+      onViewportChange={() => {
+        viewportChangeHandler();
+        console.log("@");
       }}
       attributionControl={false}
       dragPan={false}
-      scrollZoom={false}
+      // scrollZoom={false}
       interactiveLayerIds={["my_fill_layer"]}
       onClick={clickLayerHandler}
       onMouseMove={onHoverHandler}
+      onZoomEnd={onZoomEndHandler}
     >
       <Source type="geojson" data={geojson}>
         <Layer {...backgroundLayer}></Layer>
