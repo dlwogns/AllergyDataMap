@@ -18,4 +18,7 @@ public class FineDustData {
 
     @Column(name = "pm10value", nullable = false)
     private long pm10value;
+
+    @Column(name = "dataTime", nullable = false)
+    private String dataTime;
 }

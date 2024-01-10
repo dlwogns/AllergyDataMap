@@ -91,9 +91,11 @@ public class FineDustController {
             for (JsonNode item : itemsNode) {
                 String cityName = sidoName + " " + item.path("cityName").asText();
                 int pm10Value = item.path("pm10Value").asInt();
+                String dataTime = item.path("dataTime").asText();
                 FineDustData fineDustData = new FineDustData();
                 fineDustData.setCityName(cityName);
                 fineDustData.setPm10value(pm10Value);
+                fineDustData.setDataTime(dataTime);
                 fineDustDataList.add(fineDustData);
             }
             return fineDustDataList;
