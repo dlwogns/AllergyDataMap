@@ -51,7 +51,7 @@ const UserManagePage = () => {
   ];
 
   return (
-    <Row>
+    <Row style={{ width: "100%" }}>
       <Col lg="12">
         <div>
           <Card>

@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import koreaRegion from "../koreaRegion";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -7,85 +11,80 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
-import "../styles/searchPage.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/searchPage.css";
 
 export default function SearchPage() {
-  const [selectedRegion, setSelectedRegion] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedDOSI, setSelectedDOSI] = useState("");
+  const [selectedSIGUNGU, setSelectedSIGUNGU] = useState("");
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    for (let i = 0; i < koreaRegion.length; i++) {
-      console.log(koreaRegion[i][0]);
-      for (let j = 0; j < koreaRegion[i].length; j++) {
-        console.log(koreaRegion[i][1][j]);
-      }
-    }
-  }, []);
+  const onClickHandler = (e) => {
+    const endpoint =
+      `/detailRegionPage?` +
+      `dosi=${selectedDOSI}&` +
+      `sigungu=${selectedSIGUNGU}`;
+    navigate(endpoint);
+  };
 
   return (
-    <div className="searchContainer">
-      <Card
-        border="light"
-        bg="dark"
-        text="white"
-        className="searchCard"
-        style={{ width: "35rem", height: "20rem" }}
-      >
-        <Card.Header>Search</Card.Header>
-        <Card.Body>
-          <InputGroup className="mb-3">
-            <DropdownButton as={ButtonGroup} size="md" title="시/도">
-              {koreaRegion.map((region, idx) => (
-                <Dropdown.Item
-                  key={idx}
-                  onClick={() => {
-                    setSelectedRegion(region[0]);
-                  }}
-                >
-                  {region[0]}
-                </Dropdown.Item>
-              ))}
-            </DropdownButton>
-            <InputGroup.Text
-              id="basic-addon3"
-              style={{ marginRight: "50px", minWidth: "150px" }}
-            >
-              {selectedRegion}
-            </InputGroup.Text>
-            {/* margin */}
-            <DropdownButton as={ButtonGroup} size="md" title="시/군/구">
-              {selectedRegion &&
-                koreaRegion
-                  .find((region) => region[0] === selectedRegion)[1]
-                  .map((city, idx) => (
-                    <Dropdown.Item
-                      key={idx}
-                      onClick={() => {
-                        setSelectedCity(city);
-                      }}
-                    >
-                      {city}
-                    </Dropdown.Item>
-                  ))}
-            </DropdownButton>
-            <InputGroup.Text id="basic-addon3" style={{ minWidth: "150px" }}>
-              {selectedCity}
-            </InputGroup.Text>
-          </InputGroup>
-          <Button
+    <div className="search-container">
+      <Container className="search-form" fluid>
+        <InputGroup style={{ marginLeft: "30px" }}>
+          <DropdownButton
             variant="outline-success"
-            style={{
-              margin: "70px",
-              marginLeft: "180px",
-              width: "10em",
-              height: "3em",
-            }}
+            as={ButtonGroup}
+            size="lg"
+            title="시/도"
           >
-            Search
-          </Button>{" "}
-        </Card.Body>
-      </Card>
+            {koreaRegion.map((region, idx) => (
+              <Dropdown.Item
+                key={idx}
+                onClick={() => {
+                  setSelectedDOSI(region[0]);
+                }}
+              >
+                {region[0]}
+              </Dropdown.Item>
+            ))}
+          </DropdownButton>
+          <InputGroup.Text style={{ minWidth: "200px" }}>
+            {selectedDOSI}
+          </InputGroup.Text>
+        </InputGroup>
+        <InputGroup>
+          <DropdownButton
+            variant="outline-success"
+            as={ButtonGroup}
+            size="lg"
+            title="시/군/구"
+          >
+            {selectedDOSI &&
+              koreaRegion
+                .find((region) => region[0] === selectedDOSI)[1]
+                .map((city, idx) => (
+                  <Dropdown.Item
+                    key={idx}
+                    onClick={() => {
+                      setSelectedSIGUNGU(city);
+                    }}
+                  >
+                    {city}
+                  </Dropdown.Item>
+                ))}
+          </DropdownButton>
+          <InputGroup.Text style={{ minWidth: "200px" }}>
+            {selectedSIGUNGU}
+          </InputGroup.Text>
+        </InputGroup>
+        <Button
+          variant="outline-success"
+          onClick={onClickHandler}
+          style={{ width: "300px", marginRight: "30px" }}
+        >
+          Search
+        </Button>{" "}
+      </Container>
     </div>
   );
 }

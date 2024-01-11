@@ -28,7 +28,7 @@ const Header = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
   return (
-    <Navbar color="dark" dark expand="md">
+    <Navbar color="dark" dark expand="md" className="header">
       <div className="d-flex align-items-center">
         <Button
           color="dark"
@@ -39,8 +39,8 @@ const Header = () => {
         </Button>
       </div>
 
-      <Collapse navbar>
-        <Nav className="justify-content-end" navbar>
+      <Collapse navbar className="justify-content-end">
+        <Nav navbar>
           <NavItem>
             <Link to="/login" className="nav-link">
               Login

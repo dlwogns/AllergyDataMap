@@ -5,22 +5,27 @@ import { Link, useLocation } from "react-router-dom";
 const navigation = [
   {
     title: "TotalData",
-    href: "/totaldatapage",
+    href: "/totalDataPage",
     icon: "bi bi-link",
   },
   {
     title: "UserManagePage",
-    href: "/usermanagepage",
+    href: "/userManagePage",
     icon: "bi bi-layout-split",
   },
   {
     title: "Search",
-    href: "/searchpage",
+    href: "/searchPage",
     icon: "bi bi-layout-split",
   },
   {
     title: "About Us",
-    href: "/aboutus",
+    href: "/aboutUs",
+    icon: "bi bi-people",
+  },
+  {
+    title: "Make File",
+    href: "/makeFilePage",
     icon: "bi bi-people",
   },
 ];
