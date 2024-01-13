@@ -6,6 +6,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { fillColorData } from "../fillColorData";
 import { useSelector, useDispatch } from "react-redux";
 import Card from "react-bootstrap/Card";
+import "../styles/mapbox.css";
 
 const geojson = require("../geojson.json");
 
@@ -58,12 +59,6 @@ function Mapbox(props) {
   };
   const [viewport, setViewport] = useState(initialViewport);
   const [hoveredRegion, setHoveredRegion] = useState("");
-  const MapBoxStyle = {
-    position: "absolute",
-    left: "60%",
-    width: "40vw",
-    height: "92.9vh",
-  };
   const [isZoomMin, setIsZoomMin] = useState(false);
 
   const mapRef = useRef();
@@ -124,15 +119,10 @@ function Mapbox(props) {
       onLoad={() => setMap(mapRef.current.getMap())}
       mapboxAccessToken={MAP_TOKEN}
       initialViewState={viewport}
-      style={MapBoxStyle}
       mapStyle={"mapbox://styles/mapbox/light-v11"}
-      onViewportChange={() => {
-        viewportChangeHandler();
-        console.log("@");
-      }}
+      onViewportChange={viewportChangeHandler}
       attributionControl={false}
       dragPan={false}
-      // scrollZoom={false}
       interactiveLayerIds={["my_fill_layer"]}
       onClick={clickLayerHandler}
       onMouseMove={onHoverHandler}

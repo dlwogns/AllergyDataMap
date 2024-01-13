@@ -6,6 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { setRegionData } from "../redux/regionDataSlice";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import { Fade } from "reactstrap";
 
 export default function TotalDataPage() {
@@ -40,15 +43,21 @@ export default function TotalDataPage() {
   }, []);
 
   return (
-    <div className="totaldatapage-container">
-      {selectedRegionData && (
-        <Datacard selectedRegionData={selectedRegionData} />
-      )}
-      {(!isLoading || (regions.features && regions.features.length > 0)) && (
-        <div className="mapbox-container">
-          <Mapbox setSelectedRegionData={setSelectedRegionData} />
-        </div>
-      )}
-    </div>
+    <Container className="m-0 p-0 totaldatapage-container">
+      <Row className="m-0 p-0 ">
+        {selectedRegionData ? (
+          <Col className="m-0 p-0">
+            <Datacard selectedRegionData={selectedRegionData} />
+          </Col>
+        ) : (
+          <Col className="m-0 p-0"></Col>
+        )}
+        {(!isLoading || (regions.features && regions.features.length > 0)) && (
+          <Col className="m-0 p-0 mapbox-container">
+            <Mapbox setSelectedRegionData={setSelectedRegionData} />
+          </Col>
+        )}
+      </Row>
+    </Container>
   );
 }

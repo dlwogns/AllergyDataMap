@@ -1,0 +1,22 @@
+.data-card-container{
+    height: 100%;
+}
+
+.data-panel {
+    height: 100%;
+}
+
+.data-card-container .dataImg {
+    width: 200px;        
+}
+.data-card-container .data-title-container {
+    height: 60%;
+}
+
+.dataImgRow {
+    height: 100%;
+}
+
+.data-content-container {
+    height: 40%;
+}

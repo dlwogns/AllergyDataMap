@@ -22,7 +22,7 @@ const ThemeRoutes = [
     path: "/",
     element: <FullLayout />,
     children: [
-      { path: "/", element: <Navigate to="/totaldatapage" /> },
+      { path: "/", exact: true, element: <Navigate to="/totaldatapage" /> },
       { path: "/aboutUs", exact: true, element: <AboutUsPage /> },
       { path: "/userManagePage", exact: true, element: <UserManagePage /> },
       { path: "/totalDataPage", exact: true, element: <TotalDataPage /> },
