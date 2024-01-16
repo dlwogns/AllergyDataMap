@@ -16,7 +16,7 @@ public class JoinRequest {
 
     @NotBlank(message = "비밀번호 없음")
     private String password;
-    private String passwordCheck; // 뭔지 몰겟음
+    private String passwordCheck; // 패스워드 확인 문구
 
     @NotBlank(message = "이메일 없음")
     private String email;
