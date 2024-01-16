@@ -1,0 +1,19 @@
+.totaldatapage-container{
+    height: 100%;
+}
+
+.mapbox-container .mapbox-hovered-card{
+    position: absolute;
+}
+
+.riskInfoCard {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 200px;
+    height: 150px;
+    background: white;
+    padding: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid black;
+}

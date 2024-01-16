@@ -1,0 +1,41 @@
+.data-card-container{
+    min-height: 100%;
+}
+
+.data-panel {
+    height: 92.9vh;
+}
+
+.data-card-container .dataImg {
+    width: 200px;        
+}
+
+@media screen and (max-width:1248px){
+    .data-card-container .dataImg {
+        width: 150px;
+    }
+}
+
+@media screen and (max-width:820px) {
+    .data-card-container .dataImg {
+        width: 100px;
+    }
+}
+
+@media screen and (max-width:612px) {
+    .data-card-container .dataImg {
+        width: 50px;
+    }
+}
+
+.data-card-container .data-title-container {
+    height: 60%;
+}
+
+.dataImgRow {
+    height: 100%;
+}
+
+.data-content-container {
+    height: 40%;
+}
