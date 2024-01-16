@@ -42,14 +42,16 @@ const imageUrlsData = [
 ];
 
 export default function Datacard(props) {
-  const [selectedData, setSelectedData] = useState(null);
   const [arr, setArr] = useState([]);
+  const selectedRegion = useSelector(
+    (state) => state.regionData.selectedRegion
+  );
 
   useEffect(() => {
-    if (props.selectedRegionData) {
+    if (selectedRegion) {
       const arrTemp = [
-        { dataType: "미세먼지", value: props.selectedRegionData.pm10value },
-        { dataType: "꽃가루", value: props.selectedRegionData.pm10value },
+        { dataType: "미세먼지", value: selectedRegion.pm10value },
+        { dataType: "꽃가루", value: selectedRegion.pm10value },
       ];
 
       for (let data of arrTemp) {
@@ -60,15 +62,26 @@ export default function Datacard(props) {
         }
       }
       setArr(arrTemp);
-      console.log(arr);
     }
-  }, [props.selectedRegionData]);
+    console.log("!");
+  }, [selectedRegion]);
 
   return (
     <Card className="data-card-container p-0 m-0">
       <Card.Body className="p-0">
         {arr.length > 0 && (
           <Container className="d-flex-column data-panel">
+            <Container className="data-regionTitle-container">
+              <Row className="">
+                <Col className="d-flex justify-content-center">
+                  <Card className="w-75 h-75 pt-4">
+                    <Card.Title className="d-flex justify-content-center align-items-center">
+                      {selectedRegion.SIG_KOR_NM}
+                    </Card.Title>
+                  </Card>
+                </Col>
+              </Row>
+            </Container>
             <Container className="data-title-container">
               <Row className="d-flex justify-content-center align-items-center dataImgRow">
                 {arr.map((data, index) => (

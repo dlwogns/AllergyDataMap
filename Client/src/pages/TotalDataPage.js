@@ -14,9 +14,11 @@ import { Fade } from "reactstrap";
 export default function TotalDataPage() {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
-  const [selectedRegionData, setSelectedRegionData] = useState(null);
   const geojson = require("../geojson.json");
   const regions = useSelector((state) => state.regionData.regions);
+  const selectedRegion = useSelector(
+    (state) => state.regionData.selectedRegion
+  );
 
   useEffect(() => {
     if (regions.length <= 0) {
@@ -40,21 +42,18 @@ export default function TotalDataPage() {
           console.log(e);
         });
     }
-  }, []);
+    console.log(selectedRegion);
+  }, [selectedRegion]);
 
   return (
     <Container className="m-0 p-0 totaldatapage-container">
-      <Row className="m-0 p-0 ">
-        {selectedRegionData ? (
-          <Col className="m-0 p-0">
-            <Datacard selectedRegionData={selectedRegionData} />
-          </Col>
-        ) : (
-          <Col className="m-0 p-0"></Col>
-        )}
+      <Row className="m-0 p-0">
+        <Col className="m-0 p-0">
+          {selectedRegion.SIG_KOR_NM && <Datacard />}
+        </Col>
         {(!isLoading || (regions.features && regions.features.length > 0)) && (
           <Col className="m-0 p-0 mapbox-container">
-            <Mapbox setSelectedRegionData={setSelectedRegionData} />
+            <Mapbox />
           </Col>
         )}
       </Row>

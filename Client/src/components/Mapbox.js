@@ -5,6 +5,7 @@ import { MAP_TOKEN } from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { fillColorData } from "../fillColorData";
 import { useSelector, useDispatch } from "react-redux";
+import { setSelectedRegion } from "../redux/regionDataSlice";
 import Card from "react-bootstrap/Card";
 import "../styles/mapbox.css";
 
@@ -64,13 +65,15 @@ function Mapbox(props) {
   const mapRef = useRef();
   const [map, setMap] = useState(null);
 
+  const dispatch = useDispatch();
+
   const viewportChangeHandler = (e) => {
     setViewport(e);
   };
 
   const clickLayerHandler = (e) => {
     const feature = e.features[0] ? e.features[0].properties : "undefined";
-    props.setSelectedRegionData(feature);
+    dispatch(setSelectedRegion(feature));
   };
 
   const onHoverHandler = (e) => {

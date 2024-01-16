@@ -7,7 +7,8 @@
 }
 
 .data-card-container .dataImg {
-    width: 200px;        
+    padding-top: 10px;
+    width: 90%;        
 }
 
 @media screen and (max-width:1248px){
@@ -29,7 +30,7 @@
 }
 
 .data-card-container .data-title-container {
-    height: 60%;
+    height: 40%;
 }
 
 .dataImgRow {
@@ -37,5 +38,5 @@
 }
 
 .data-content-container {
-    height: 40%;
+    height: 30%;
 }
