@@ -1,4 +1,4 @@
-package MapServer.utils;
+package MapServer.server.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

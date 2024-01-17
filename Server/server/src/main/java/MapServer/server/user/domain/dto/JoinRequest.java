@@ -1,7 +1,7 @@
-package MapServer.user.domain.dto;
+package MapServer.server.user.domain.dto;
 
-import MapServer.user.domain.UserRole;
-import MapServer.user.domain.entity.UserEntity;
+import MapServer.server.user.domain.UserRole;
+import MapServer.server.user.domain.entity.UserEntity;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

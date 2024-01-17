@@ -1,7 +1,7 @@
-package MapServer.utils;
+package MapServer.server.utils;
 
-import MapServer.user.domain.entity.UserEntity;
-import MapServer.user.service.UserService;
+import MapServer.server.user.domain.entity.UserEntity;
+import MapServer.server.user.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -55,6 +55,9 @@ dependencies {
 
 	// JWT Token
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+	// utils
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 tasks.named('bootBuildImage') {

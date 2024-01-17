@@ -1,10 +1,10 @@
-package MapServer.user.controller;
+package MapServer.server.user.controller;
 
-import MapServer.user.domain.dto.JoinRequest;
-import MapServer.user.domain.dto.LoginRequest;
-import MapServer.user.domain.entity.UserEntity;
-import MapServer.user.service.UserService;
-import MapServer.utils.JwtTokenUtil;
+import MapServer.server.user.domain.dto.JoinRequest;
+import MapServer.server.user.domain.dto.LoginRequest;
+import MapServer.server.user.service.UserService;
+import MapServer.server.user.domain.entity.UserEntity;
+import MapServer.server.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;

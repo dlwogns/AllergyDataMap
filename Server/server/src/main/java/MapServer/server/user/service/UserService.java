@@ -1,9 +1,9 @@
-package MapServer.user.service;
+package MapServer.server.user.service;
 
-import MapServer.user.domain.dto.JoinRequest;
-import MapServer.user.domain.dto.LoginRequest;
-import MapServer.user.domain.entity.UserEntity;
-import MapServer.user.repository.UserRepository;
+import MapServer.server.user.domain.dto.JoinRequest;
+import MapServer.server.user.domain.dto.LoginRequest;
+import MapServer.server.user.domain.entity.UserEntity;
+import MapServer.server.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

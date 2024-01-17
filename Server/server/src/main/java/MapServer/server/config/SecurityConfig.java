@@ -1,9 +1,10 @@
-package MapServer.config;
+package MapServer.server.config;
 
-import MapServer.user.domain.UserRole;
-import MapServer.user.service.UserService;
-import MapServer.utils.JwtTokenFilter;
+import MapServer.server.user.domain.UserRole;
+import MapServer.server.user.service.UserService;
+import MapServer.server.utils.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,14 +24,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                .httpBasic((httpbasic) ->
+                        httpbasic.disable())
+                .csrf((csrf) ->
+                        csrf.disable())
+                .sessionManagement((session) ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .formLogin((formlogin) ->
+                        formlogin.disable())
                 .addFilterBefore(new JwtTokenFilter(userService, secretKey), UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests()
-                .requestMatchers("/user/info").authenticated()
-                .requestMatchers("/user/admin/**").hasAuthority(UserRole.ADMIN.name());
+                .authorizeHttpRequests((requests) ->{
+                        requests.requestMatchers("/home").permitAll();
+                        requests.requestMatchers("/finedust/**").permitAll();
+                        requests.anyRequest().authenticated();
+                })
+                .exceptionHandling((exception) -> exception.accessDeniedPage("/"));
         return httpSecurity.build();
     }
 }
