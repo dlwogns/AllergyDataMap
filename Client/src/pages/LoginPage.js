@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   MDBBtn,
   MDBContainer,
@@ -7,97 +7,103 @@ import {
   MDBCard,
   MDBCardBody,
   MDBInput,
-  MDBIcon,
 } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
-import "mdb-react-ui-kit/dist/css/mdb.min.css";
+// import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "../styles/loginPage.css";
 
 function LoginPage() {
+  const SignupSchema = Yup.object().shape({
+    email: Yup.string().email("Invalid email").required("enter your email"),
+    password: Yup.string().required("enter your password"),
+  });
+
   return (
-    <MDBContainer fluid className="loginContainer" style={{ height: "835px" }}>
-      <MDBRow className="d-flex justify-content-center align-items-center h-100">
-        <MDBCol col="12">
-          <MDBCard
-            className="bg-dark text-white my-5 mx-auto"
-            style={{ borderRadius: "1rem", maxWidth: "400px" }}
-          >
-            <MDBCardBody className="p-5 d-flex flex-column align-items-center mx-auto w-100">
-              <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
-              <p className="text-white-50 mb-5">
-                Please enter your login and password!
-              </p>
+    <Formik
+      initialValues={{ email: "", password: "" }}
+      validationSchema={SignupSchema}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
+      }}
+    >
+      {({ errors, touched }) => (
+        <Form
+          as={MDBContainer}
+          fluid
+          className="loginContainer"
+          style={{ height: "100vh", width: "100vw", overflow: "auto" }}
+        >
+          <MDBRow className="d-flex justify-content-center align-items-center h-100">
+            <MDBCol col="12">
+              <MDBCard
+                className="bg-dark text-white my-5 mx-auto"
+                style={{ borderRadius: "1rem", maxWidth: "400px" }}
+              >
+                <MDBCardBody className="p-5 d-flex flex-column align-items-center mx-auto w-100">
+                  <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
+                  <Field
+                    as={MDBInput}
+                    name="email"
+                    labelClass="text-white"
+                    id="formControlLg"
+                    type="email"
+                    size="lg"
+                    wrapperClass="mb-4 mx-5 w-100"
+                  >
+                    {errors.email && touched.email ? (
+                      <span style={{ color: "red" }}>{errors.email}</span>
+                    ) : (
+                      "Email address"
+                    )}
+                  </Field>
 
-              <MDBInput
-                wrapperClass="mb-4 mx-5 w-100"
-                labelClass="text-white"
-                label="Email address"
-                id="formControlLg"
-                type="email"
-                size="lg"
-              />
-              <MDBInput
-                wrapperClass="mb-4 mx-5 w-100"
-                labelClass="text-white"
-                label="Password"
-                id="formControlLg"
-                type="password"
-                size="lg"
-              />
+                  <Field
+                    as={MDBInput}
+                    name="password"
+                    labelClass="text-white"
+                    id="formControlLg"
+                    type="password"
+                    size="lg"
+                    wrapperClass="mb-4 mx-5 w-100"
+                  >
+                    {errors.password && touched.password ? (
+                      <span style={{ color: "red" }}>{errors.password}</span>
+                    ) : (
+                      "Password"
+                    )}
+                  </Field>
 
-              <p className="small mb-3 pb-lg-2">
-                <a class="text-white-50" href="#!">
-                  Forgot password?
-                </a>
-              </p>
-              <MDBBtn outline className="mx-2 px-5" color="white" size="lg">
-                Login
-              </MDBBtn>
-
-              <div className="d-flex flex-row mt-3 mb-5">
-                <MDBBtn
-                  tag="a"
-                  color="none"
-                  className="m-3"
-                  style={{ color: "white" }}
-                >
-                  <MDBIcon fab icon="facebook-f" size="lg" />
-                </MDBBtn>
-
-                <MDBBtn
-                  tag="a"
-                  color="none"
-                  className="m-3"
-                  style={{ color: "white" }}
-                >
-                  <MDBIcon fab icon="twitter" size="lg" />
-                </MDBBtn>
-
-                <MDBBtn
-                  tag="a"
-                  color="none"
-                  className="m-3"
-                  style={{ color: "white" }}
-                >
-                  <MDBIcon fab icon="google" size="lg" />
-                </MDBBtn>
-              </div>
-
-              <div>
-                <p className="mb-0">
-                  Don't have an account?{" "}
-                  <a href="/#signup" class="text-white-50 fw-bold">
-                    Sign Up
-                  </a>
-                </p>
-              </div>
-            </MDBCardBody>
-          </MDBCard>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+                  <Button
+                    variant="outline-success"
+                    size="lg"
+                    className="w-75 mb-4"
+                    type="submit"
+                  >
+                    Login
+                  </Button>
+                  <div>
+                    <p className="mb-0">
+                      Don't have an account?{" "}
+                      <a href="/signup" className="text-white-50 fw-bold">
+                        Sign Up
+                      </a>
+                    </p>
+                  </div>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
+        </Form>
+      )}
+    </Formik>
   );
 }
 

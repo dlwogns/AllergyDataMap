@@ -6,14 +6,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { setRegionData } from "../redux/regionDataSlice";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import { Fade } from "reactstrap";
 
 export default function TotalDataPage() {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
-  const [selectedRegionData, setSelectedRegionData] = useState(null);
   const geojson = require("../geojson.json");
   const regions = useSelector((state) => state.regionData.regions);
+  const selectedRegion = useSelector(
+    (state) => state.regionData.selectedRegion
+  );
 
   useEffect(() => {
     if (regions.length <= 0) {
@@ -37,18 +42,21 @@ export default function TotalDataPage() {
           console.log(e);
         });
     }
-  }, []);
+    console.log(selectedRegion);
+  }, [selectedRegion]);
 
   return (
-    <div className="totaldatapage-container">
-      {selectedRegionData && (
-        <Datacard selectedRegionData={selectedRegionData} />
-      )}
-      {(!isLoading || (regions.features && regions.features.length > 0)) && (
-        <div className="mapbox-container">
-          <Mapbox setSelectedRegionData={setSelectedRegionData} />
-        </div>
-      )}
-    </div>
+    <Container className="m-0 p-0 totaldatapage-container">
+      <Row className="m-0 p-0">
+        <Col className="m-0 p-0">
+          {selectedRegion.SIG_KOR_NM && <Datacard />}
+        </Col>
+        {(!isLoading || (regions.features && regions.features.length > 0)) && (
+          <Col className="m-0 p-0 mapbox-container">
+            <Mapbox />
+          </Col>
+        )}
+      </Row>
+    </Container>
   );
 }

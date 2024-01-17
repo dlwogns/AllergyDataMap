@@ -8,13 +8,19 @@
 
 .contentArea {
   flex-grow: 1;
-  height:100vh;
 }
 
 .wrapper {
-  max-width: 1500px;
   margin: 0 auto;
-  min-height: 500px;
+}
+
+
+.totaldatapage-container {
+  margin: 0;
+  padding: 0;
+  min-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .card {
@@ -38,7 +44,6 @@
 .button-group .btn {
   margin: 3px;
 }
-
 
 
 .table>:not(:first-child) {

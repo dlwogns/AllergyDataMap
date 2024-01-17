@@ -1,5 +1,5 @@
-.totaldatapage-container {
-    display: flex;
+.totaldatapage-container{
+    height: 100%;
 }
 
 .mapbox-container .mapbox-hovered-card{

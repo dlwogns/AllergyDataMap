@@ -5,7 +5,9 @@ import { MAP_TOKEN } from "../config";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { fillColorData } from "../fillColorData";
 import { useSelector, useDispatch } from "react-redux";
+import { setSelectedRegion } from "../redux/regionDataSlice";
 import Card from "react-bootstrap/Card";
+import "../styles/mapbox.css";
 
 const geojson = require("../geojson.json");
 
@@ -58,16 +60,12 @@ function Mapbox(props) {
   };
   const [viewport, setViewport] = useState(initialViewport);
   const [hoveredRegion, setHoveredRegion] = useState("");
-  const MapBoxStyle = {
-    position: "absolute",
-    left: "60%",
-    width: "40vw",
-    height: "92.9vh",
-  };
   const [isZoomMin, setIsZoomMin] = useState(false);
 
   const mapRef = useRef();
   const [map, setMap] = useState(null);
+
+  const dispatch = useDispatch();
 
   const viewportChangeHandler = (e) => {
     setViewport(e);
@@ -75,7 +73,7 @@ function Mapbox(props) {
 
   const clickLayerHandler = (e) => {
     const feature = e.features[0] ? e.features[0].properties : "undefined";
-    props.setSelectedRegionData(feature);
+    dispatch(setSelectedRegion(feature));
   };
 
   const onHoverHandler = (e) => {
@@ -124,15 +122,10 @@ function Mapbox(props) {
       onLoad={() => setMap(mapRef.current.getMap())}
       mapboxAccessToken={MAP_TOKEN}
       initialViewState={viewport}
-      style={MapBoxStyle}
       mapStyle={"mapbox://styles/mapbox/light-v11"}
-      onViewportChange={() => {
-        viewportChangeHandler();
-        console.log("@");
-      }}
+      onViewportChange={viewportChangeHandler}
       attributionControl={false}
       dragPan={false}
-      // scrollZoom={false}
       interactiveLayerIds={["my_fill_layer"]}
       onClick={clickLayerHandler}
       onMouseMove={onHoverHandler}
