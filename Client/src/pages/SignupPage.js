@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   MDBBtn,
   MDBContainer,
@@ -19,17 +19,18 @@ import "../styles/signupPage.css";
 import koreaRegion from "../koreaRegion";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 function App() {
   const SignupSchema = Yup.object().shape({
     name: Yup.string().required("enter your name"),
     email: Yup.string().email("Invalid email").required("enter your email"),
     password: Yup.string().required("enter your password"),
-    confirmPassword: Yup.string()
+    passwordCheck: Yup.string()
       .oneOf([Yup.ref("password"), null], "Password must match")
       .required("enter your password again"),
-    selectedDOSI: Yup.string().required("select your province"),
-    selectedSIGUNGU: Yup.string().required("select your district"),
+    cityName: Yup.string().required("select your province"),
+    cityCtl: Yup.string().required("select your district"),
   });
 
   return (
@@ -38,28 +39,34 @@ function App() {
         name: "",
         email: "",
         password: "",
-        confirmPassword: "",
-        selectedDOSI: "",
-        selectedSIGUNGU: "",
+        passwordCheck: "",
+        cityName: "",
+        cityCtl: "",
       }}
       validationSchema={SignupSchema}
       onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
+        axios
+          .post("/user/join", values)
+          .then((response) => {
+            alert("Register successful!");
+            setSubmitting(false);
+          })
+          .catch((error) => {
+            alert("Register failed. Please try again.");
+            setSubmitting(false);
+          });
       }}
     >
       {({ errors, touched, values }) => (
         <Form
           as={MDBContainer}
-          fluid
+          fluid="true"
           className="loginContainer"
           style={{ height: "100vh", width: "100vw", overflow: "auto" }}
         >
           <Field
             as={MDBContainer}
-            fluid
+            fluid="true"
             className="d-flex align-items-center justify-content-center signupContainer"
             style={{
               height: "100%",
@@ -76,7 +83,6 @@ function App() {
                   name="name"
                   wrapperClass="mb-4"
                   size="lg"
-                  id="form1"
                   type="text"
                 >
                   {errors.name && touched.name ? (
@@ -90,7 +96,6 @@ function App() {
                   name="email"
                   wrapperClass="mb-4"
                   size="lg"
-                  id="form1"
                   type="email"
                 >
                   {errors.email && touched.email ? (
@@ -104,7 +109,6 @@ function App() {
                   name="password"
                   wrapperClass="mb-4"
                   size="lg"
-                  id="form3"
                   type="password"
                 >
                   {errors.password && touched.password ? (
@@ -115,16 +119,13 @@ function App() {
                 </Field>
                 <Field
                   as={MDBInput}
-                  name="confirmPassword"
+                  name="passwordCheck"
                   wrapperClass="mb-4"
                   size="lg"
-                  id="form3"
                   type="password"
                 >
-                  {errors.confirmPassword && touched.confirmPassword ? (
-                    <span style={{ color: "red" }}>
-                      {errors.confirmPassword}
-                    </span>
+                  {errors.passwordCheck && touched.passwordCheck ? (
+                    <span style={{ color: "red" }}>{errors.passwordCheck}</span>
                   ) : (
                     "Confirm Password"
                   )}
@@ -136,26 +137,30 @@ function App() {
                       as={ButtonGroup}
                       size="lg"
                       title="시/도"
-                      name="selectedDOSI"
+                      name="cityNameDropdown"
                     >
                       {koreaRegion.map((region, idx) => (
                         <Field
                           as={Dropdown.Item}
                           key={idx}
                           onClick={() => {
-                            values.selectedDOSI = region[0];
+                            values.cityName = region[0];
                           }}
+                          name="cityName"
                         >
                           {region[0]}
                         </Field>
                       ))}
                     </DropdownButton>
-                    <InputGroup.Text style={{ minWidth: "255px" }}>
-                      {values.selectedDOSI}
+                    <InputGroup.Text
+                      style={{ minWidth: "255px" }}
+                      name="cityNameText"
+                    >
+                      {values.cityName}
                     </InputGroup.Text>
                   </InputGroup>
-                  {errors.selectedDOSI && touched.selectedDOSI ? (
-                    <span style={{ color: "red" }}>{errors.selectedDOSI}</span>
+                  {errors.cityName && touched.cityName ? (
+                    <span style={{ color: "red" }}>{errors.cityName}</span>
                   ) : (
                     "Province"
                   )}
@@ -163,45 +168,51 @@ function App() {
                 <div className="mb-4">
                   <InputGroup>
                     <Field
+                      name="cityDtl"
                       as={DropdownButton}
                       variant="outline-success"
                       size="lg"
                       title="시/군/구"
+                      name="cityDtlDropdown"
                     >
-                      {values.selectedDOSI &&
+                      {values.cityName &&
                         koreaRegion
-                          .find(
-                            (region) => region[0] === values.selectedDOSI
-                          )[1]
+                          .find((region) => region[0] === values.cityName)[1]
                           .map((city, idx) => (
                             <Field
                               as={Dropdown.Item}
                               key={idx}
                               onClick={() => {
-                                values.selectedSIGUNGU = city;
+                                values.cityCtl = city;
                               }}
+                              name="cityDtl"
                             >
                               {city}
                             </Field>
                           ))}
                     </Field>
-                    <InputGroup.Text style={{ minWidth: "230px" }}>
-                      {values.selectedSIGUNGU}
+                    <InputGroup.Text
+                      style={{ minWidth: "230px" }}
+                      name="cityDtlText"
+                    >
+                      {values.cityCtl}
                     </InputGroup.Text>
                   </InputGroup>
-                  {errors.selectedSIGUNGU && touched.selectedSIGUNGU ? (
-                    <span style={{ color: "red" }}>
-                      {errors.selectedSIGUNGU}
-                    </span>
+                  {errors.cityCtl && touched.cityCtl ? (
+                    <span style={{ color: "red" }}>{errors.cityCtl}</span>
                   ) : (
                     "District"
                   )}
                 </div>
                 <Button
+                  name="submitButton"
                   variant="outline-success"
                   size="lg"
                   className="mb-4 w-100 gradient-custom-4"
                   type="submit"
+                  onClick={() => {
+                    console.log(values);
+                  }}
                 >
                   Register
                 </Button>

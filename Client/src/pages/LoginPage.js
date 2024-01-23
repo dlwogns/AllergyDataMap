@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 // import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -28,10 +29,18 @@ function LoginPage() {
       initialValues={{ email: "", password: "" }}
       validationSchema={SignupSchema}
       onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
+        axios
+          .post("/user/login", values)
+          .then((response) => {
+            console.log(response.data);
+            alert("Login successful!");
+            setSubmitting(false);
+          })
+          .catch((error) => {
+            console.log(error);
+            alert("Login failed. Please try again.");
+            setSubmitting(false);
+          });
       }}
     >
       {({ errors, touched }) => (
