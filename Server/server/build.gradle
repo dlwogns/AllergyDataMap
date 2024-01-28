@@ -48,6 +48,16 @@ dependencies {
 
 	//validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// Spring Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	// JWT Token
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+	// utils
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 tasks.named('bootBuildImage') {

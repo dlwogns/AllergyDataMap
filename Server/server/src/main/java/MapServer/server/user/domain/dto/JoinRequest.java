@@ -1,7 +1,7 @@
-package MapServer.user.domain.dto;
+package MapServer.server.user.domain.dto;
 
-import MapServer.user.domain.UserRole;
-import MapServer.user.domain.entity.UserEntity;
+import MapServer.server.user.domain.UserRole;
+import MapServer.server.user.domain.entity.UserEntity;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ public class JoinRequest {
 
     @NotBlank(message = "비밀번호 없음")
     private String password;
-    private String passwordCheck; // 뭔지 몰겟음
+    private String passwordCheck; // 패스워드 확인 문구
 
     @NotBlank(message = "이메일 없음")
     private String email;

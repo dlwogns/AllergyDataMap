@@ -1,4 +1,4 @@
-package MapServer.user.domain.dto;
+package MapServer.server.user.domain.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

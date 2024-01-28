@@ -1,12 +1,13 @@
-package MapServer.user.service;
+package MapServer.server.user.service;
 
-import MapServer.user.domain.dto.JoinRequest;
-import MapServer.user.domain.dto.LoginRequest;
-import MapServer.user.domain.entity.UserEntity;
-import MapServer.user.repository.UserRepository;
+import MapServer.server.user.domain.dto.JoinRequest;
+import MapServer.server.user.domain.dto.LoginRequest;
+import MapServer.server.user.domain.entity.UserEntity;
+import MapServer.server.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     // Login by Spring Security
-    // private final BCryptPasswordEncoder encoder;
+    private final BCryptPasswordEncoder encoder;
 
     /**
      * login Id 중복 체크
@@ -28,22 +29,31 @@ public class UserService {
         return userRepository.existsByLoginId(loginId);
     }
 
+
+    /**
+     * email 중복 체크
+     * @param email
+     * @return
+     */
+    public boolean checkEmailDuplicate(String email){
+        return userRepository.existsByEmail(email);
+    }
     /**
      * 회원가입 1
      * @param req
      */
-    public void join(JoinRequest req) {
-        userRepository.save(req.toEntity());
-    }
+//    public void join(JoinRequest req) {
+//        userRepository.save(req.toEntity());
+//    }
 
     /**
      * 회원가입 2
      * 비밀번호 암호화
      * @param req
      */
-//    public void join2(JoinRequest req) {
-//        userRepository.save(req.toEntity(encoder.encode(req.getPassword())));
-//    }
+    public void join(JoinRequest req) {
+        userRepository.save(req.toEntity(encoder.encode(req.getPassword())));
+    }
 
     /**
      * 기본 로그인. 단순 비밀번호 비교
