@@ -20,29 +20,40 @@ export default function TotalDataPage() {
     (state) => state.regionData.selectedRegion
   );
 
-  useEffect(() => {
-    if (regions.length <= 0) {
-      console.log(regions);
-      axios("http://localhost:8000/getRegionData")
-        .then((res) => {
-          res.data.forEach((data1) => {
-            geojson.features.forEach((data2) => {
-              if (data1.cityName === data2.properties.SIG_KOR_NM) {
-                data2.properties.pm10value = data1.pm10value;
-                data2.properties.dataTime = data1.dataTime;
-              }
-            });
-          });
-          return dispatch(setRegionData(geojson));
-        })
-        .then(() => {
-          setIsLoading(false);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+  const getAllData = async () => {
+    try {
+      const res = await axios("http://localhost:8080/finedust/getalldata");
+      console.log(res);
+      return res;
+    } catch (e) {
+      console.log(e);
     }
-    console.log(selectedRegion);
+  };
+
+  useEffect(() => {
+    getAllData();
+    // if (regions.length <= 0) {
+    //   console.log(regions);
+    //   axios("http://localhost:8000/getRegionData")
+    //     .then((res) => {
+    //       res.data.forEach((data1) => {
+    //         geojson.features.forEach((data2) => {
+    //           if (data1.cityName === data2.properties.SIG_KOR_NM) {
+    //             data2.properties.pm10value = data1.pm10value;
+    //             data2.properties.dataTime = data1.dataTime;
+    //           }
+    //         });
+    //       });
+    //       return dispatch(setRegionData(geojson));
+    //     })
+    //     .then(() => {
+    //       setIsLoading(false);
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //     });
+    // }
+    // console.log(selectedRegion);
   }, [selectedRegion]);
 
   return (

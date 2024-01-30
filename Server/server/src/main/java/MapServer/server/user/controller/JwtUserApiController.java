@@ -7,11 +7,10 @@ import MapServer.server.user.domain.entity.UserEntity;
 import MapServer.server.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,9 +19,11 @@ public class JwtUserApiController {
 
     private final UserService userService;
 
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/join")
     public String join(@RequestBody JoinRequest joinRequest) {
+
+        System.out.println(joinRequest + "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
         if(userService.checkLoginIdDuplicate(joinRequest.getLoginId())) {
             return "로그인 아이디 중복";

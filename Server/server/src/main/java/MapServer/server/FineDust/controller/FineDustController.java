@@ -17,10 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -59,6 +56,7 @@ public class FineDustController {
         return ResponseEntity.ok("Data saved");
     }
 
+//    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getalldata")
     public List<FineDustData> getAllFineDustData() {
         return fineDustService.getAllFineDustData();
