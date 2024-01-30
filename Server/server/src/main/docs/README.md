@@ -44,3 +44,5 @@ MicroService로 분리
 - [] 회원가입시 이메일 인증
 - [] Security Configuration 작성
 - [] JWT 설정
+- [] JWT 토큰방식 구현
+- 

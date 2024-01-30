@@ -1,6 +1,6 @@
-package MapServer.user.domain.entity;
+package MapServer.server.user.domain.entity;
 
-import MapServer.user.domain.UserRole;
+import MapServer.server.user.domain.UserRole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

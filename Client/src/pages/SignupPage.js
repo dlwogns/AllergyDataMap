@@ -46,7 +46,7 @@ function App() {
       validationSchema={SignupSchema}
       onSubmit={(values, { setSubmitting }) => {
         axios
-          .post("/user/join", values)
+          .post("http://localhost:8080/user/join", values)
           .then((response) => {
             alert("Register successful!");
             setSubmitting(false);

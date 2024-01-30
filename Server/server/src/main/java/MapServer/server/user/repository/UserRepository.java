@@ -1,6 +1,6 @@
-package MapServer.user.repository;
+package MapServer.server.user.repository;
 
-import MapServer.user.domain.entity.UserEntity;
+import MapServer.server.user.domain.entity.UserEntity;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
